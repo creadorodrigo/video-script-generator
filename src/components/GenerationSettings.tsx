@@ -31,7 +31,7 @@ export default function GenerationSettings({
         <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
           <div className="flex items-center justify-center mb-4">
             <span className="text-4xl font-bold text-blue-600">
-              {config.numVariations}
+              {config.num_variacoes}
             </span>
             <span className="ml-2 text-lg text-gray-600">variações</span>
           </div>
@@ -39,8 +39,8 @@ export default function GenerationSettings({
             type="range"
             min={minVariations}
             max={maxVariations}
-            value={config.numVariations}
-            onChange={(e) => onChange({ ...config, numVariations: parseInt(e.target.value) })}
+            value={config.num_variacoes}
+            onChange={(e) => onChange({ ...config, num_variacoes: parseInt(e.target.value) })}
             className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
           />
           <div className="flex justify-between mt-2 text-sm text-gray-600">
