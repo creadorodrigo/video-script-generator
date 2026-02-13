@@ -1,11 +1,13 @@
 'use client';
 
-import { ConfiguracoesGeracao } from '@/types';
+import type { ConfiguracoesGeracao } from '@/types';
 
 interface GenerationSettingsProps {
   configuracoes: ConfiguracoesGeracao;
   onChange: (configuracoes: ConfiguracoesGeracao) => void;
 }
+
+configuracoes: ConfiguracoesGeracao
 
 export default function GenerationSettings({
   configuracoes,
