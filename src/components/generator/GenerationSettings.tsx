@@ -1,6 +1,6 @@
 'use client';
 
-import { ConfiguracoesGeracao, DuracaoVideo, PlataformaPrincipal } from '@/types';
+import { ConfiguracoesGeracao } from '@/types';
 
 interface GenerationSettingsProps {
   configuracoes: ConfiguracoesGeracao;
