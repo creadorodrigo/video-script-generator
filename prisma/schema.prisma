@@ -1,0 +1,82 @@
+// Schema do banco de dados para o Video Script Generator
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String   // hash bcrypt
+  
+  generationsUsed Int @default(0) // contador mensal
+  lastReset       DateTime @default(now())
+  
+  patterns  VideoPattern[]
+  scripts   GeneratedScript[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("users")
+}
+
+model VideoPattern {
+  id          String   @id @default(cuid())
+  title       String   // título descritivo do padrão
+  description String?  // descrição opcional
+  
+  // Vídeos de referência
+  videoUrls   Json     // array de { url, platform, transcription }
+  
+  // Análise consolidada dos padrões
+  analysis    Json     // estrutura completa da análise
+  
+  // Metadados
+  tags        String[] // tags para busca
+  isFavorite  Boolean  @default(false)
+  
+  // Relacionamentos
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  scripts     GeneratedScript[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([tags])
+  @@map("video_patterns")
+}
+
+model GeneratedScript {
+  id              String   @id @default(cuid())
+  
+  // Dados de entrada
+  newTheme        Json     // { tipo, conteudo, publico_alvo, objetivo }
+  settings        Json     // { num_variacoes, duracao_video, plataforma }
+  
+  // Resultados
+  scripts         Json     // array de roteiros gerados
+  consolidatedAnalysis Json // análise consolidada usada
+  
+  // Relacionamentos
+  patternId       String?
+  pattern         VideoPattern? @relation(fields: [patternId], references: [id], onDelete: SetNull)
+  
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime @default(now())
+  
+  @@index([userId])
+  @@index([patternId])
+  @@map("generated_scripts")
+}
