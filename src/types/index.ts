@@ -96,3 +96,5 @@ export interface ProcessingState {
   message: string;
   estimatedTimeRemaining: number;
 }
+export type GenerationConfig = ConfiguracoesGeracao;
+
