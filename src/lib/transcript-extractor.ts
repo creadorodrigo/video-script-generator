@@ -84,22 +84,27 @@ async function extractSocialMediaTranscription(
   
   console.warn(`[MVP] Usando transcrição mock para ${video.platform}`);
   
-  const mockTranscriptions = {
-    instagram: `Você sabia que 80% das pessoas fazem isso errado? 
-    Eu cometi esse erro por anos até descobrir esse método. 
-    Agora minha vida mudou completamente. 
-    Link na bio para saber mais.`,
-    
-    tiktok: `Espera, você ainda não sabe disso? 
-    Isso vai mudar tudo pra você. 
-    Olha só o que acontece quando você faz assim. 
-    Resultado incrível em apenas 7 dias. 
-    Corre lá no link da bio!`,
-  };
+  const mockTranscriptions: Record<Platform, string> = {
+  youtube: `Este vídeo vai mudar sua forma de pensar sobre isso.
+  Nos últimos meses descobri um método incrível.
+  Vou mostrar os 3 passos que usei para conseguir resultados.
+  Link na descrição para saber mais detalhes.`,
+  
+  instagram: `Você sabia que 80% das pessoas fazem isso errado? 
+  Eu cometi esse erro por anos até descobrir esse método. 
+  Agora minha vida mudou completamente. 
+  Link na bio para saber mais.`,
+  
+  tiktok: `Espera, você ainda não sabe disso? 
+  Isso vai mudar tudo pra você. 
+  Olha só o que acontece quando você faz assim. 
+  Resultado incrível em apenas 7 dias. 
+  Corre lá no link da bio!`,
+};
 
   return {
     ...video,
-    transcription: mockTranscriptions[video.platform] || 'Transcrição não disponível',
+    transcription: mockTranscriptions[video.platform as Platform],
   };
 }
 
