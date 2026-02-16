@@ -1,120 +1,124 @@
 'use client';
 
-import { ThemeInput } from '@/types';
+import { NovoTema, Objetivo } from '@/types';
 
 interface ThemeInputSectionProps {
-  theme: ThemeInput;
-  onChange: (theme: ThemeInput) => void;
+  tema: NovoTema;
+  onChange: (tema: NovoTema) => void;
 }
 
-export default function ThemeInputSection({ theme, onChange }: ThemeInputSectionProps) {
+export default function ThemeInputSection({ tema, onChange }: ThemeInputSectionProps) {
   return (
-    <div className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Novo Produto/Tema
-        </label>
-        <p className="text-sm text-gray-500 mb-4">
-          Descreva o produto ou serviço para o qual você quer criar roteiros
-        </p>
+    <div className="bg-white rounded-lg shadow p-6">
+      <h2 className="text-xl font-semibold mb-4">🎯 Novo Tema/Produto</h2>
+
+      {/* Toggle Tipo */}
+      <div className="mb-4">
+        <p className="text-gray-700 mb-2">Como você quer informar o novo tema?</p>
+        <div className="flex gap-4">
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="radio"
+              name="themeType"
+              checked={tema.tipo === 'descricao'}
+              onChange={() => onChange({ ...tema, tipo: 'descricao' })}
+              className="mr-2"
+            />
+            <span>Descrição manual</span>
+          </label>
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="radio"
+              name="themeType"
+              checked={tema.tipo === 'link'}
+              onChange={() => onChange({ ...tema, tipo: 'link' })}
+              className="mr-2"
+            />
+            <span>Link do produto</span>
+          </label>
+        </div>
       </div>
 
-      {/* Toggle entre descrição e link */}
-      <div className="flex gap-4 mb-4">
-        <button
-          onClick={() => onChange({ ...theme, type: 'description' })}
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            theme.type === 'description'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          📝 Descrição Manual
-        </button>
-        <button
-          onClick={() => onChange({ ...theme, type: 'link' })}
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            theme.type === 'link'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          🔗 Link do Produto
-        </button>
-      </div>
-
-      {/* Campo de descrição */}
-      {theme.type === 'description' && (
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Descrição do Produto/Serviço *
+      {/* Input de Descrição ou Link */}
+      {tema.tipo === 'descricao' ? (
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">
+            Descreva seu produto/tema:
           </label>
           <textarea
-            value={theme.content}
-            onChange={(e) => onChange({ ...theme, content: e.target.value })}
-            placeholder="Ex: Curso online de vendas B2B para iniciantes. Ensina método validado que gerou R$2M em 12 meses. Inclui 40 aulas, templates prontos e mentoria em grupo. Ideal para SDRs e profissionais em transição de carreira..."
-            rows={6}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+            value={tema.conteudo}
+            onChange={(e) => onChange({ ...tema, conteudo: e.target.value })}
+            placeholder="Ex: Curso de vendas B2B para iniciantes com método validado que gerou R$2M em 12 meses. Ensina prospecção, qualificação de leads e fechamento de vendas complexas..."
+            rows={5}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <p className="mt-1 text-xs text-gray-500">
-            Mínimo 50 caracteres • {theme.content.length}/1000
+          <p className="text-sm text-gray-500 mt-1">
+            {tema.conteudo.length} / 1000 caracteres (mínimo 20)
           </p>
         </div>
-      )}
-
-      {/* Campo de link */}
-      {theme.type === 'link' && (
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Link do Produto *
+      ) : (
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">
+            🔗 Link do produto:
           </label>
           <input
             type="url"
-            value={theme.content}
-            onChange={(e) => onChange({ ...theme, content: e.target.value })}
-            placeholder="https://seusite.com/produto"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            value={tema.conteudo}
+            onChange={(e) => onChange({ ...tema, conteudo: e.target.value })}
+            placeholder="https://seuproduto.com"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <p className="mt-1 text-xs text-gray-500">
-            URL completa da página de vendas ou landing page
-          </p>
         </div>
       )}
 
-      {/* Campos opcionais */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Público-alvo (opcional)
-          </label>
-          <input
-            type="text"
-            value={theme.targetAudience || ''}
-            onChange={(e) => onChange({ ...theme, targetAudience: e.target.value })}
-            placeholder="Ex: Mulheres 25-35 anos, classe B+"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
+      {/* Público-alvo (opcional) */}
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-2">
+          📌 Público-alvo <span className="text-gray-400">(opcional)</span>:
+        </label>
+        <input
+          type="text"
+          value={tema.publico_alvo || ''}
+          onChange={(e) => onChange({ ...tema, publico_alvo: e.target.value })}
+          placeholder="Ex: Vendedores B2B iniciantes, 25-40 anos"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Objetivo do vídeo (opcional)
-          </label>
-          <select
-            value={theme.objective || ''}
-            onChange={(e) => onChange({ 
-              ...theme, 
-              objective: e.target.value as 'leads' | 'sale' | 'engagement' | undefined 
-            })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="">Selecione...</option>
-            <option value="leads">Gerar Leads</option>
-            <option value="sale">Venda Direta</option>
-            <option value="engagement">Engajamento</option>
-          </select>
+      {/* Objetivo (opcional) */}
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-2">
+          🎯 Objetivo do vídeo <span className="text-gray-400">(opcional)</span>:
+        </label>
+        <div className="flex gap-4">
+          {(['leads', 'venda', 'engajamento'] as Objetivo[]).map((obj) => (
+            <label key={obj} className="flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={tema.objetivo === obj}
+                onChange={() =>
+                  onChange({
+                    ...tema,
+                    objetivo: tema.objetivo === obj ? undefined : obj,
+                  })
+                }
+                className="mr-2"
+              />
+              <span className="capitalize">{obj}</span>
+            </label>
+          ))}
         </div>
       </div>
+
+      {/* Validação */}
+      {tema.conteudo.length > 0 && tema.conteudo.length < 20 && (
+        <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+          <p className="text-yellow-800 text-sm">
+            ⚠️ Descreva seu produto com pelo menos 20 caracteres para gerar
+            roteiros de qualidade
+          </p>
+        </div>
+      )}
     </div>
   );
 }
