@@ -35,7 +35,7 @@ export const authOptions: NextAuthOptions = {
 
         // Verifica se precisa resetar o contador mensal
         const now = new Date();
-        const lastReset = new Date(user.lastResetDate);
+        const lastReset = new Date(user.lastReset);
         const shouldReset = 
           now.getMonth() !== lastReset.getMonth() || 
           now.getFullYear() !== lastReset.getFullYear();
