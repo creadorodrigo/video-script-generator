@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import VideoInputSection from '@/components/generator/VideoInputSection';
 import ThemeInputSection from '@/components/generator/ThemeInputSection';
 import GenerationSettings from '@/components/generator/GenerationSettings';
-import ScriptCard from '@/components/results/ScriptCard';
+import ScriptCard from '@/components/results/ScriptCardNew';
 import {
   VideoInput,
   NovoTema,
